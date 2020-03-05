@@ -1,0 +1,6 @@
+--require main.js
+--recursive
+--timeout 120000
+--ui mocha-cakes-2
+--reporter mochawesome
+--reporter-options reportDir=reports
