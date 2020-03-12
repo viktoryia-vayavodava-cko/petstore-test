@@ -1,9 +1,3 @@
 {
-    "baseUrl": "https://petstore.swagger.io/v2",
-    "apiKey": "LocalApiKey123",
-    "mysqlConnectionConfig": {
-        "host": "localhost",
-        "user": "root",
-        "password": "password"
-    }
+    "baseUrl": "https://petstore.swagger.io/v2"
 }
