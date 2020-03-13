@@ -19,3 +19,6 @@ function postPet(body) {
         .post('/pet')
         .send(body)
 }
+
+// TO DO 
+// create function for deleting the pet
