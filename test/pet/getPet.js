@@ -2,40 +2,33 @@ const client = require('../client')
 
 feature.only('Verify the get functionality', function () {
 
-    scenario("Verify that correct pet is returned by id provided", function () {
+    scenario.only("Verify that correct pet is returned by id provided", function () {
 
         let context;
         let id;
         let pet;
 
         given("we have a pet id ", async function () {
-             pet = {
+            pet = {
                 "category": {
-                    "id": 10,
-                    "name": "cats"
+                    "id": 130,
+                    "name": "mice"
                 },
                 "name": "Leila",
                 "photoUrls": [
-                    "http://test.com",
-                    "http://test2.com"
+                    "http://t3est.com",
+                    "http://t3est2.com"
                 ],
-                "tags": [
-                    {
-                        "id": 5,
-                        "name": "good cat"
-                    }
-                ],
-                "status": "availablo"
+                "status": "new"
             }
 
             context = await client.postPet(pet);
-            console.log(context.body);
             id = context.body.id
-            console.log(id);
 
         });
 
         when("we retrieve the pet by this id", async function () {
+            console.log(id);
             context = await client.getPet(id);
         });
 

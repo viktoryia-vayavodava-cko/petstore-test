@@ -1,6 +1,6 @@
 const client = require('../client')
 
-feature('Verify the get functionality', function () {
+feature.skip('Verify the get functionality', function () {
 
     scenario("Verify that correct pet is returned by id provided", function () {
 
