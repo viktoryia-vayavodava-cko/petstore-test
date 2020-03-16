@@ -2,7 +2,7 @@ const client = require('../client')
 
 feature('Verify the post  functionality', function () {
 
-    scenario.only("Verify that correct pet is created", function () {
+    scenario("Verify that correct pet is created", function () {
 
         let context;
 
@@ -23,7 +23,7 @@ feature('Verify the post  functionality', function () {
                 }
             ],
             "status": "available"
-        }
+        };
 
         given("we have a pet data", function () {
         });
