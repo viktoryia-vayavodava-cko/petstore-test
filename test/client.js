@@ -1,6 +1,7 @@
 module.exports = {
     getPet,
-    postPet
+    postPet,
+    deletePet
 
 }
 
@@ -23,3 +24,11 @@ function postPet(body) {
 
 // TO DO 
 // create function for deleting the pet
+
+function deletePet(id) {
+    return request ("https://petstore.swagger.io/v2")
+    .delete(`/pet/${id}`)
+    .set("Content-Type", "application/json")
+    .send()
+
+}
