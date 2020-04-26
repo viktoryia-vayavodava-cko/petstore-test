@@ -7,10 +7,10 @@ feature('Pet with id can be deleted', function () {
     scenario('the correct pet is deleted', function () {
 
         let context;
-       // let id = Math.floor(Math.random() * 1000000);
-      
-        let pet = animal.pet1();
-      
+        // let id = Math.floor(Math.random() * 1000000);
+
+        let pet = animal.pet1;
+
         given("we delete a pet with id ", async function () {
             context = await client.postPet(pet);
             id = context.body.id
@@ -22,14 +22,14 @@ feature('Pet with id can be deleted', function () {
         then("Status code is 200", function () {
             context.status.should.be.equal(200);
             context.statusCode.should.be.equal(200);
-        //    console.log(context.statusCode);
+            //    console.log(context.statusCode);
         });
-        and("we call the deleted pet",async function(){
+        and("we call the deleted pet", async function () {
 
             context = await client.getPet(id);
         })
 
-        and("we verify the pet is no longer available, 404 Error not found", function(){
+        and("we verify the pet is no longer available, 404 Error not found", function () {
 
             context.statusCode.should.be.equal(404);
             console.log(`\t Code: ${context.body.code} Type: ${context.body.type} message: ${context.body.message}`);

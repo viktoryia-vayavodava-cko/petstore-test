@@ -1,7 +1,14 @@
 module.exports = {
     hasElementInArray,
     hasSpecifiElementInArray,
-    hasSpecifiElementInObject
+    hasSpecifiElementInObject,
+    generateId,
+    compareElementInArray
+
+}
+
+function generateId() {
+    return id = Math.floor(Math.random() * 1000000);
 
 }
 
@@ -38,20 +45,40 @@ function hasSpecifiElementInArray(element, name) {
 
 function hasSpecifiElementInObject(element, name) {
 
- //   console.log('object :', element);
- //   console.log('name :', name);
+    //   console.log('object :', element);
+    //   console.log('name :', name);
 
     hasit = false;
     element.forEach(el => {
-     //   console.log('object :', el);
+        //   console.log('object :', el);
         if (el.name == name) {
             hasit = true;
             return true;
-        }else {
-         
+        } else {
+
         }
-        
+
     });
     return hasit;
 
 };
+
+function compareElementInArray(original , returned) {
+
+     
+    // method 01
+    let i = 0;
+
+    original.forEach(element => {
+
+        element.should.be.equal(returned[i]);
+        i++;
+    });
+/*
+    // method 02
+    original.forEach(function (value, y) {
+        value.should.be.equal(returned[y]);
+    }); 
+    */
+
+}

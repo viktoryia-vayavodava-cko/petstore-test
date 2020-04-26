@@ -1,13 +1,10 @@
-module.exports = {
-    pet1
-}
+const helperM = require('./helpMethods');
 
-function pet1() {
-    let id = Math.floor(Math.random() * 1000000);
-    let pet = {
-        "id": `${id}`,
+
+let pet1 = {
+    "id": `${helperM.generateId()}`,
         "category": {
-            "id": 130,
+            "id": 166,
             "name": "mice"
         },
         "name": "Leila",
@@ -15,7 +12,62 @@ function pet1() {
             "http://t3est.com",
             "http://t3est2.com"
         ],
-        "status": "new"
-    }
-    return pet;
+        "status": "available"
+};
+
+let pet2 = {
+    "id": `${helperM.generateId()}`,
+    "category": {
+        "id": 110,
+        "name": "cats"
+    },
+    "name": "Panda",
+    "photoUrls": [
+        "http://test.com",
+        "http://test2.com",
+        "http://test3.com"
+    ],
+    "tags": [
+        {
+            "id": 5,
+            "name": "good cat"
+        },
+        {
+            "id": 6,
+            "name": "bad cat"
+        }
+    ],
+    "status": "sold"
+};
+
+let pet3 = {
+    "id": `${helperM.generateId()}`,
+    "category": {
+        "id": 130,
+        "name": "mice"
+    },
+    "name": "Leila",
+    "photoUrls": [
+        "http://t3est.com",
+        "http://t3est2.com"
+    ],
+    "status": "sold"
+}
+
+let pet4 = {
+    "id": `${helperM.generateId()}`,
+    "category": {
+        "id": 130,
+        "name": "mice"
+    },
+    "name": "Leila",
+    "photoUrls": [
+        "http://t3est.com",
+        "http://t3est2.com"
+    ],
+    "status": "pending"
+}
+// to export varialbe the export method should go at the end
+module.exports = {
+    pet1,pet2,pet3,pet4
 }

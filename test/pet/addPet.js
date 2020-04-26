@@ -1,5 +1,7 @@
 const client = require('../client');
 const helpMethods = require('../helpMethods');
+const animal = require('../pets');
+
 
 feature('Verify the post functionality', function () {
 
@@ -7,30 +9,7 @@ feature('Verify the post functionality', function () {
 
         let context;
 
-        let pet = {
-            "id": 0,
-            "category": {
-                "id": 110,
-                "name": "cats"
-            },
-            "name": "Panda",
-            "photoUrls": [
-                "http://test.com",
-                "http://test2.com",
-                "http://test3.com"
-            ],
-            "tags": [
-                {
-                    "id": 5,
-                    "name": "good cat"
-                },
-                {
-                    "id": 6,
-                    "name": "bad cat"
-                }
-            ],
-            "status": "available"
-        };
+        let pet = animal.pet2;
 
         given("we have a pet data", function () {
         });
