@@ -7,7 +7,6 @@ feature('Pet with id can be deleted', function () {
     scenario('the correct pet is deleted', function () {
 
         let context;
-        // let id = Math.floor(Math.random() * 1000000);
 
         let pet = animal.pet1;
 
@@ -22,7 +21,6 @@ feature('Pet with id can be deleted', function () {
         then("Status code is 200", function () {
             context.status.should.be.equal(200);
             context.statusCode.should.be.equal(200);
-            //    console.log(context.statusCode);
         });
         and("we call the deleted pet", async function () {
 

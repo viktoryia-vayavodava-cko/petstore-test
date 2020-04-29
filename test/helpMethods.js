@@ -1,71 +1,18 @@
 module.exports = {
-    hasElementInArray,
-    hasSpecifiElementInArray,
-    hasSpecifiElementInObject,
-    generateId,
-    compareElementInArray
 
+    generateId,
+    compareElementInArray,
+    generateSendString,
+    petIdIsReturned
 }
 
 function generateId() {
     return id = Math.floor(Math.random() * 1000000);
-
 }
 
-function hasElementInArray(element) {
-
-    let arrayToCheck = element;
-    let hasit = false;
-
-    if (arrayToCheck === undefined || arrayToCheck.length == 0) {
-        hasit = false;
-    } else
-        hasit = true;
-
-    return hasit;
-};
-
-function hasSpecifiElementInArray(element, name) {
-
-    let arrayToCheck = element;
-    let hasit = false;
-
-    arrayToCheck.forEach(element => {
-
-        if (element == name) {
-            hasit = true;
-        } else {
-            hasit = false
-        };
-    });
-
-    return hasit;
-}
+function compareElementInArray(original, returned) {
 
 
-function hasSpecifiElementInObject(element, name) {
-
-    //   console.log('object :', element);
-    //   console.log('name :', name);
-
-    hasit = false;
-    element.forEach(el => {
-        //   console.log('object :', el);
-        if (el.name == name) {
-            hasit = true;
-            return true;
-        } else {
-
-        }
-
-    });
-    return hasit;
-
-};
-
-function compareElementInArray(original , returned) {
-
-     
     // method 01
     let i = 0;
 
@@ -74,11 +21,60 @@ function compareElementInArray(original , returned) {
         element.should.be.equal(returned[i]);
         i++;
     });
-/*
-    // method 02
-    original.forEach(function (value, y) {
-        value.should.be.equal(returned[y]);
-    }); 
-    */
+    /*
+        // method 02
+        original.forEach(function (value, y) {
+            value.should.be.equal(returned[y]);
+        }); 
+        */
+
+}
+
+function generateSendString(status1, status2, status3) {
+
+    let sendSting;
+
+    if (status1 == `` || status1 == null) {
+        if (status2 == `` || status2 == null) {
+            if (status3 == `` || status3 == null) { // 000
+                console.log('all 3 parameters are empty')
+                sendSting = `status=''`;
+            } else {// 001
+                sendSting = `status=${status3}`;
+            }
+        } else {
+            if (status3 == `` || status3 == null) { // 010
+                sendSting = `status=${status2}`;
+            } else {  // 011
+
+                sendSting = `status=${status2}&status=${status3}`;
+            }
+        }
+    } else {
+        if (status2 == `` || status2 == null) {
+            if (status3 == `` || status3 == null) {//100
+                sendSting = `status=${status1}`;
+            } else { //101
+                sendSting = `status=${status1}&status=${status3}`;
+            }
+        } else {
+            if (status3 == `` || status3 == null) { //110
+                sendSting = `status=${status1}&status=${status2}`;
+            } else {  //111
+                sendSting = `status=${status1}&status=${status2}&status=${status3}`;
+            }
+        }
+    }
+
+    return sendSting;
+}
+
+function petIdIsReturned(cBody, petId) {
+
+    let item = cBody.findIndex(i => i.id === parseInt(petId));
+
+    var valueAtIndex = cBody[item];
+
+    return (parseInt(petId)) === (parseInt(valueAtIndex.id)) ? true : false
 
 }

@@ -1,6 +1,5 @@
 const helperM = require('./helpMethods');
 
-
 let pet1 = {
     "id": `${helperM.generateId()}`,
         "category": {
@@ -67,6 +66,7 @@ let pet4 = {
     ],
     "status": "pending"
 }
+
 // to export varialbe the export method should go at the end
 module.exports = {
     pet1,pet2,pet3,pet4

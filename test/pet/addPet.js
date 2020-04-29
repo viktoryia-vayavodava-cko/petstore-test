@@ -3,54 +3,50 @@ const helpMethods = require('../helpMethods');
 const animal = require('../pets');
 
 
-feature('Verify the post functionality', function () {
+feature.only('Verify the post functionality', function () {
 
-    scenario("Add a new pet to the store", function () {
+  scenario("Add a new pet to the store", function () {
 
-        let context;
+    let context;
+    let pet = animal.pet2;
 
-        let pet = animal.pet2;
+    given("we have a pet data", function () {
+    });
 
-        given("we have a pet data", function () {
-        });
+    when("we create the pet with data provided", async function () {
+      context = await client.postPet(pet);
+      console.log(context.body);
+    });
 
-        when("we create the pet with data provided", async function () {
-            context = await client.postPet(pet);
-        });
+    then("the correct pet is created", function () {
+      context.status.should.be.equal(200)
+      context.body.name.should.be.equal('Panda')
+    });
+    
+    and("has pictures of pets", function () {
 
-        then("the correct pet is created", function () {
-            context.status.should.be.equal(200)
-            context.body.name.should.be.equal ('Panda')
-            // TO DO
-            // add more assertions
+      context.body.should.have.property("photoUrls").and.is.not.empty;
 
-        });
-        and("has pictures of pets",function(){
+    });
+    and("and has the following picture http://test3.com", function () {
 
-        helpMethods.hasElementInArray(context.body.photoUrls)
-          .should.be.equal(true);
+      expect(context.body.photoUrls).to.be.an('array').that.does.include("http://test3.com");
+      context.body.photoUrls.should.be.an('array').that.does.include("http://test3.com");
+
+      // which assertion shuld I use?
+
+    });
+
+    and("has tags", function () {
+      context.body.should.have.property("tags").and.is.not.empty;
+
+    });
+    and("has this tag name 'good cat'", function () {
+
+      // not using the correct assertion
+        context.body.tags.should.include.something("good cat1");
 
 
-        });
-        and("and has the following picture http://test3.com",function(){
-
-            helpMethods.hasSpecifiElementInArray(context.body.photoUrls ,"http://test3.com")
-           .should.be.equal(true);
-            
-        });
-
-        and("has tags", function(){
-
-            helpMethods.hasElementInArray(context.body.tags)
-          .should.be.equal(true);
-
-        });
-        and("has this tag name 'good cat'", function(){
-
-            helpMethods.hasSpecifiElementInObject(context.body.tags, "good cat")
-            .should.be.equal(true);
-  
-          });
-    })
-
+    });
+  })
 })
