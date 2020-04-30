@@ -1,9 +1,10 @@
 module.exports = {
-
+    hasSpecifiElementInObject,
     generateId,
     compareElementInArray,
     generateSendString,
-    petIdIsReturned
+    petIdIsReturned,
+    genrateTodaydateFormat
 }
 
 function generateId() {
@@ -29,6 +30,25 @@ function compareElementInArray(original, returned) {
         */
 
 }
+
+function hasSpecifiElementInObject(element, name) {
+
+    // OR push all in an arry
+
+    hasit = false;
+    element.forEach(el => {
+        //   console.log('object :', el);
+        if (el.name == name) {
+            hasit = true;
+            return true;
+        } else {
+
+        }
+
+    });
+    return hasit;
+
+};
 
 function generateSendString(status1, status2, status3) {
 
@@ -76,5 +96,23 @@ function petIdIsReturned(cBody, petId) {
     var valueAtIndex = cBody[item];
 
     return (parseInt(petId)) === (parseInt(valueAtIndex.id)) ? true : false
+
+}
+
+
+function genrateTodaydateFormat() {
+
+    Number.prototype.pad = function (size) {
+        var s = String(this);
+        while (s.length < (size || 2)) { s = "0" + s; }
+        return s;
+    }
+
+
+    let date = new Date();
+
+    let shipDate = `${date.getFullYear()}-${(date.getDay()).pad()}-${(date.getMonth()).pad()}T${(date.getHours()).pad()}:${(date.getMinutes()).pad()}.${(date.getMilliseconds()).pad(3)}Z`;
+
+    return shipDate;
 
 }
