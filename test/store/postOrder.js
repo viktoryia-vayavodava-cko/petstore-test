@@ -85,40 +85,65 @@ feature.only('User is able to plance an order', function () {
 
     });
 
-    // the functionality of update an existing order with POST is not supported
-    // modified the test to verified that cannot be updated
-    scenario("cannot updated an existing order id", function () {
+    scenario("updated an existing order id and change value and verify if apdated", function () {
 
         let order = orders.order01;
-        let replaceorder = orders.order03;
+
+        let replacedorder = {
+            "id": `${order.id}`,
+            "petId": "111",
+            "quantity": 25,
+            "shipDate": "2020-06-29T16:37:45.794Z",
+            "status": "delivered",
+            "complete": true
+
+        };
+
         let context1, context2;
 
         given("I have the above existing order id", async function () {
 
             context1 = await client.postOrder(order);
 
-            console.log(order);
-
         });
 
         then("replace the orderId with the above values", async function () {
 
-            console.log(replaceorder);
-
-            context2 = await client.postOrder(replaceorder);
-
+            context2 = await client.postOrder(replacedorder);
 
         });
         and("The return status is 200", async function () {
-            context1.status.should.be.equal(200);
+            context2.status.should.be.equal(200);
 
         });
 
-        and("Verify the order is not updated", function () {
+        and("Verify if each order properties have been updated", function () {
 
-            expect(order).to.be.not.equal(replaceorder);
+            let replaceresponce = context2.body;  // replaced
+
+            console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            console.log(replaceresponce);
+            console.log(replacedorder);
+            console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+
+            expect(replaceresponce.id).to.be.equal(parseInt(replacedorder.id));
+            expect(replaceresponce.petId).to.be.equal(parseInt(replacedorder.petId));
+            expect(replaceresponce.quantity).to.be.equal(parseInt(replacedorder.quantity));
+            expect(replaceresponce.shipDate).to.be.equal(replacedorder.shipDate);
+            expect(replaceresponce.status).to.be.equal(replacedorder.status);
+            expect(replaceresponce.complete).to.be.equal(replacedorder.complete);
+
         });
 
     });
 
 });
+
+
+// Date()
+
+// single positive test
+// simple negative test
+// post method - updated the same id and change value and verify if apdated
+// assert that all are updated correclty

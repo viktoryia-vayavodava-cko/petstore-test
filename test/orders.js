@@ -30,17 +30,6 @@ order02 =
     "complete": true
 }
 
-// Fix values
-let order03 = {
-    "id": `${helperM.generateId()}`,
-    "petId": "011",
-    "quantity": 25,
-    "shipDate": `${shipDate}`,
-    "status": status.DELIVERED,
-    "complete": true
-
-};
-
 module.exports = {
-    order01, order02 ,order03
+    order01, order02
 }
