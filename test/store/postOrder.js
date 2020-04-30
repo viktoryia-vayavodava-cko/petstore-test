@@ -122,15 +122,15 @@ feature.only('User is able to plance an order', function () {
             let replaceresponce = context2.body;  // replaced
 
             console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            console.log(replaceresponce);
             console.log(replacedorder);
+            console.log(replaceresponce);
             console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
 
             expect(replaceresponce.id).to.be.equal(parseInt(replacedorder.id));
             expect(replaceresponce.petId).to.be.equal(parseInt(replacedorder.petId));
             expect(replaceresponce.quantity).to.be.equal(parseInt(replacedorder.quantity));
-     //       expect(replaceresponce.shipDate).to.be.equal(replacedorder.shipDate);
+            expect(replaceresponce.shipDate.slice(0, 23)).to.be.equal(replacedorder.shipDate.slice(0, 23));
             expect(replaceresponce.status).to.be.equal(replacedorder.status);
             expect(replaceresponce.complete).to.be.equal(replacedorder.complete);
 
