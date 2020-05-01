@@ -108,6 +108,11 @@ function genrateTodaydateFormat() {
         return s;
     }
 
+    /* this is way too complex.. can you just do let date = new Date() ? it should return the date in the following format 
+    - 2020-05-01T15:31:37.939Z - which is exactly what you need 
+    */
+
+
 
     let date = new Date();
 

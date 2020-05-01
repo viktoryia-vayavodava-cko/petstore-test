@@ -10,8 +10,12 @@ const status = {
 
 // Valid order
 let order01 = {
-    "id": `${helperM.generateId()}`,
-    "petId": `${helperM.generateId()}`,
+    /* as per orders schema, id and petId are integers, to there is no need 
+    to create order object with ` ` (it automatically turns int into string)
+    having that changed you won't need to do parseInt in your tests 
+    */
+    "id": helperM.generateId(),
+    "petId": helperM.generateId(),
     "quantity": 20,
     "shipDate": `${shipDate}`,
     "status": status.PLACED,
