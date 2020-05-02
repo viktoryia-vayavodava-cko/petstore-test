@@ -4,7 +4,8 @@ module.exports = {
     compareElementInArray,
     generateSendString,
     petIdIsReturned,
-    genrateTodaydateFormat
+    genrateTodaydateFormat,
+    dateRefoactor
 }
 
 function generateId() {
@@ -102,22 +103,43 @@ function petIdIsReturned(cBody, petId) {
 
 function genrateTodaydateFormat() {
 
+    /*
     Number.prototype.pad = function (size) {
         var s = String(this);
         while (s.length < (size || 2)) { s = "0" + s; }
         return s;
     }
 
+    */
+
     /* this is way too complex.. can you just do let date = new Date() ? it should return the date in the following format 
     - 2020-05-01T15:31:37.939Z - which is exactly what you need 
+
+
+    <-- @angye reply - when the month, day and so on has a single digit (0-9)- the Date() returnd it as a single digit 
+    wich will fail the POST for the order - shipDate accepts two digits - ex month 5 should be 05
+    so the above funcion add a leading 0 if the number is of one digit only.
+    */
+
+    // BUT now I have fond this short solution :) much better
+
+    var todayDate = new Date().toISOString();
+    return todayDate;
+    /* noo need it anymore - I will remove the comments after you view it
+    let date = new Date();
+
+
+    let shipDate = `${date.getFullYear()}-${(date.getDay()).pad()}-${(date.getMonth()).pad()}T${(date.getHours()).pad()}:${(date.getMinutes()).pad()}.${(date.getMilliseconds()).pad(3)}Z`;
     */
 
 
-
-    let date = new Date();
-
-    let shipDate = `${date.getFullYear()}-${(date.getDay()).pad()}-${(date.getMonth()).pad()}T${(date.getHours()).pad()}:${(date.getMinutes()).pad()}.${(date.getMilliseconds()).pad(3)}Z`;
-
-    return shipDate;
-
 }
+
+
+function dateRefoactor(data) {
+
+    let position = data.slice(0, data.indexOf('+'));
+
+    return position;
+
+};

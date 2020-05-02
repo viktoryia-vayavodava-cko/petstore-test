@@ -1,8 +1,9 @@
-
+/* - this cause a bug when use .to.have.all.keys - threrefore remove it for now - */
 var chai = require("chai");
 chai.should();
 chai.use(require('chai-things'));
-// var assert = require('chai').assert;
+
+
 
 const helpMethods = require('../helpMethods');
 
