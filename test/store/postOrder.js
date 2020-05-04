@@ -2,7 +2,7 @@ const client = require('../client');
 const orders = require('../orders');
 const helper = require('../helpMethods');
 
-feature.only('User is able to place an order', function () {
+feature('User is able to place an order', function () {
 
     scenario("Place an empty order", function () {
         let order;
@@ -84,16 +84,6 @@ feature.only('User is able to place an order', function () {
         });
     });
 
-    /* could you please create a test scenario with shipDate tests? 
-    for example, i noticed that:
-    1) if you Post  order object with  shipDate": "2020-05-01", the order will be created with 2020-05-01T00:00:00.000+0000
-    2) if you Post  order object  shipDate having unexistent day of month ,e.g ": "2020-05-32", the order will be created with date calculated accordingly, so in my example its gonna be  2020-06-01T00:00:00.000+0000
-    3) if you Post  order object  shipDate having unexistent  month ,e.g ": "2020-13-01", the order will be created with date calculated accordingly, so in my example the month will be added,e.g its gonna be   "2021-01-01T00:00:00.000+0000"
-
-    you will need a helper method calculateShipDate or smth like that.
-    if you struggle with the method, dont waste much time on it, just calculate expected dates manually and add to the assertions
-    */
-
     scenario("Place a not valid order", function () {
 
         let order = orders.order02;
@@ -174,15 +164,75 @@ feature.only('User is able to place an order', function () {
             but since I know the string should be long 23 - I think it is an acceplabele approach
             but for the sake of the excercise - done :) 
             */
-        
-         
 
- //  OLD         expect(replaceResponce.shipDate.slice(0, 23)).to.be.equal(replacedOrder.shipDate.slice(0, 23));
-            expect(helper.dateRefoactor(replaceResponce.shipDate)).to.be.equal(helper.dateRefoactor(replaceResponce.shipDate));
+            //  OLD         expect(replaceResponce.shipDate.slice(0, 23)).to.be.equal(replacedOrder.shipDate.slice(0, 23));
+            expect(helper.dateTrim(replaceResponce.shipDate)).to.be.equal(helper.dateTrim(replaceResponce.shipDate));
             expect(replaceResponce.status).to.be.equal(replacedOrder.status);
             expect(replaceResponce.complete).to.be.equal(replacedOrder.complete);
         });
 
     });
 
+    /* could you please create a test scenario with shipDate tests? 
+for example, i noticed that:
+1) if you Post  order object with  shipDate": "2020-05-01", the order will be created with 2020-05-01T00:00:00.000+0000
+2) if you Post  order object  shipDate having unexistent day of month ,e.g ": "2020-05-32", the order will be created with date calculated accordingly, so in my example its gonna be  2020-06-01T00:00:00.000+0000
+3) if you Post  order object  shipDate having unexistent  month ,e.g ": "2020-13-01", the order will be created with date calculated accordingly, so in my example the month will be added,e.g its gonna be   "2021-01-01T00:00:00.000+0000"
+
+you will need a helper method calculateShipDate or smth like that.
+if you struggle with the method, dont waste much time on it, just calculate expected dates manually and add to the assertions
+*/
+
+    // adding above sherarios
+    // 1) if you Post  order object with  shipDate": "2020-05-01", the order will be created with 2020-05-01T00:00:00.000+0000
+
+    Scenario("Post order with shipDate format 'yyy-mm-dd' should have time set to T00:00:00.000+0000", function () {
+
+        let order = orders.order03;
+
+        Given("I have an existing order id", async function () {
+
+            context = await client.postOrder(order);
+
+        });
+
+        When("The return statis is 200", function () {
+
+            context.status.should.be.equal(200, 'Status for context');
+
+        });
+
+        Then("the shipDate has a time set to all zeros", function () {
+
+            expect(context.body.shipDate, "shiDate does not have time set to zero").to.include('T00:00:00.000+0000');
+
+
+        });
+
+    });
+
+    //   2) if you Post  order object shipDate having unexistent day of month,
+    //  e.g ": "2020-05-32", the order will be created with date calculated accordingly, 
+    //   so in my example its gonna be  2020-06-01T00:00:00.000+0000
+
+
+    Scenario("Calculate the current date", function () {
+
+        let order = orders.order04;
+
+        Given("I have an existing order id with unexistent day of month ", async function () {
+
+            context = await client.postOrder(order);
+
+        });
+
+        When("The return statis is 200", function () {
+
+            context.status.should.be.equal(200, 'Status for context');
+
+        });
+
+       
+
+    });
 });

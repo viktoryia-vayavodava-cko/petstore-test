@@ -34,6 +34,29 @@ order02 =
     "complete": true
 }
 
+// ship date with no time
+order03 =
+{
+    "id": helperM.generateId(),
+    "petId": helperM.generateId(),
+    "quantity": 20,
+    "shipDate": `2020-05-01`,
+    "status": status.PLACED,
+    "complete": false
+}
+
+// ShiDate Month is invalid - 
+order04 =
+{
+    "id": helperM.generateId(),
+    "petId": helperM.generateId(),
+    "quantity": 20,
+    "shipDate": `2020-05-32`,
+    "status": status.PLACED,
+    "complete": false
+}
+
+
 module.exports = {
-    order01, order02
+    order01, order02, order03, order04
 }

@@ -5,7 +5,8 @@ module.exports = {
     generateSendString,
     petIdIsReturned,
     genrateTodaydateFormat,
-    dateRefoactor
+    dateTrim,
+    varifyDateTime
 }
 
 function generateId() {
@@ -136,10 +137,16 @@ function genrateTodaydateFormat() {
 }
 
 
-function dateRefoactor(data) {
+function dateTrim(data) {
 
     let position = data.slice(0, data.indexOf('+'));
 
     return position;
 
 };
+
+
+function varifyDateTime(date) {
+    
+
+}
