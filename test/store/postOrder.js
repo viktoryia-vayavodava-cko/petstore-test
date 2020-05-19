@@ -44,24 +44,23 @@ feature('User is able to place an order', function () {
 
             expect(response.id).to.not.be.undefined.and.not.be.null;
             expect(response.id, '"id" is not an integer').and.is.a('number').above(0).and.satisfy(Number.isInteger);
-
             expect(response.petId, 'petId is not undefined').to.not.be.undefined.and.not.be.null;
             expect(response.petId, 'petId is not a number').and.is.a('number').above(0).and.satisfy(Number.isInteger);
-
-            //    response.quantity.should.be.equal(20); // for future reference - i would suggest using  1 notaion (either expect().to.be.. or should.be..)
-            // @angye reply - is this only for consistency or there is an acutal reaon to chose eiter? - when I asked on our last chat - you said I can use both.
-
-            // @vicky --> ofcourse you can use both, but what i meant is that its better not to use both at the same time (in the same test suite), just pick 1 notation and stick to it :)   
-
             expect(response.quantity).to.be.equal(20);
             expect(response.shipDate).to.not.be.undefined.and.not.be.null; // its crucial to verify that ship date is populated correctly. please add a test for that
             // @angye reply - yes I have it - check below
             // @vicky --> can you please point me to the line of code where you check that?
+            // @angye --> there we go
+            expect(helper.dateTrim(response.shipDate)).to.be.equal(helper.dateTrim(order.shipDate));
 
             expect(response.status, 'response is not set as "placed"').to.be.equal('placed');
             expect(response.status, '"status" is not a string').and.is.a('string');
 
             // @vicky --> what is the reason for adding this part -'response is not set as "false"'- in the assertion?
+            // @angye --> it can be either true or false
+            // if you are reffering to this part 'response is not set as "false"' of the assertion 
+            //- this is the message printed in case the assertion fails 
+            // anyway is an exeperiment - just trying it out :) 
             response.complete.should.be.equal(false, 'response is not set as "false"');
 
         });
@@ -78,9 +77,13 @@ feature('User is able to place an order', function () {
             */
             // @vicky --> yeah, i believe that chai-things wasn't added to initial project set up, right? you installed it afterwards? 
             //was there a specific need for that?
+            // @angye --> yep- I used it in getpetbystatus.js
+            // for this sort of assertion
+            // context.body.should.include.something.that.has.property("status", "available");
+
             let response = context.body;
             //      expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]).and.to.have.length(5);
-            // this is a possible 
+
             expect(response).to.have.property('id');
             expect(response).to.have.property("petId");
             expect(response).to.have.property("quantity");
@@ -116,10 +119,19 @@ feature('User is able to place an order', function () {
 
             // could you please also verify actual response received? e.g response.type, response.message?
             // @vicky -> can you please address that comment as well? 
+            // @angye -> look at And("Respone type and response message", 
 
         });
         and("The return status is 500", function () {
             context.status.should.be.equal(500);
+        });
+
+        And("Respone type and response message", function () {
+
+            context.body.code.should.be.equal(500);
+            context.body.type.should.be.equal('unknown');
+            context.body.message.should.be.equal('something bad happened');
+
         });
 
     });
@@ -179,22 +191,21 @@ if you struggle with the method, dont waste much time on it, just calculate expe
 
     Scenario("Post order with shipDate format 'yyy-mm-dd' should have time set to T00:00:00.000+0000", function () {
 
-        let order = orders.order03;
+        let order;
         // @vicky - in this scenario i would prefer to see 'given' step containing just an order object, 
         // 'when' step - an action, e.g. postOrder and 'then' step - all assertions (status=200, time assertion etc)
+        // @angye --> OK - I hope this is what you mean
 
 
-        Given("I have an existing order id", async function () {
+        Given("I have an existing order id", function () {
 
-            context = await client.postOrder(order);
-
+            order = orders.order03;
         });
 
-        When("The return statis is 200", function () {
+        When("The return statis is 200", async function () {
 
-            // @vicky - its better not to add messages to assertions. it just clutters things up, You have given-when-then description for that
-
-            context.status.should.be.equal(200, 'Status for context');
+            context = await client.postOrder(order);
+            context.status.should.be.equal(200);
 
         });
 
@@ -215,13 +226,20 @@ if you struggle with the method, dont waste much time on it, just calculate expe
     Scenario("Calculate the current date", function () {
 
         // @vicky - please see my comment above in the line 183-184
+        // @angye - done 
 
-        let order = orders.order04;
+        let order;
 
         Given("I have an existing order id with unexistent day of month ", async function () {
 
-            context = await client.postOrder(order);
+            order = orders.order04;
 
+        });
+
+        And("I create the order with existing order id and unexistent day of the month", async function () {
+        
+            context = await client.postOrder(order);
+        
         });
 
         When("The return statis is 200", function () {
@@ -233,9 +251,9 @@ if you struggle with the method, dont waste much time on it, just calculate expe
         //calculate the data manually and do the assertion, e.g.: 
 
         Then("The order date is calculated and saved correctly", function () {
-            let response = context.body;  
+            let response = context.body;
             expect(response.shipDate).to.be.contain('2020-06-01');
-        }); 
+        });
 
         When("user posts the order with inexistent month", async function () {
             order.shipDate = '2020-13-01'
@@ -243,8 +261,8 @@ if you struggle with the method, dont waste much time on it, just calculate expe
         });
 
         Then("The order date is calculated and saved correctly", function () {
-            let response = context.body;  
+            let response = context.body;
             expect(response.shipDate).to.be.contain('2021-01-01');
-        }); 
+        });
     });
 });

@@ -109,7 +109,11 @@ function genrateTodaydateFormat() {
     return todayDate;
 }
 
-
+/**
+ * Remove the part after + symbol.
+ * @param {string} data just the string
+ * @return {string} String truncated after + symbol
+ */
 function dateTrim(data) {
 
     let position = data.slice(0, data.indexOf('+'));
