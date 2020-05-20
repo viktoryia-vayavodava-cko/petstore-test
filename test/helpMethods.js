@@ -6,7 +6,7 @@ module.exports = {
     petIdIsReturned,
     genrateTodaydateFormat,
     dateTrim,
-    varifyDateTime
+    findInString
 }
 
 function generateId() {
@@ -120,10 +120,11 @@ function dateTrim(data) {
 
     return position;
 
-};
+}
 
 
-function varifyDateTime(date) {
-    
+function findInString(st1, st2){
+
+    return st1.search(st2);
 
 }

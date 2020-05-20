@@ -19,7 +19,7 @@ let order01 = {
     "quantity": 20,
     "shipDate": `${shipDate}`,
     "status": status.PLACED,
-    "complete": false
+    "complete": true
 
 };
 
@@ -34,7 +34,7 @@ order02 =
     "complete": true
 }
 
-// ship date with no time
+// ShipDate with no time
 order03 =
 {
     "id": helperM.generateId(),
@@ -45,7 +45,7 @@ order03 =
     "complete": false
 }
 
-// ShiDate Month is invalid - 
+// ShipDate Month is invalid - 
 order04 =
 {
     "id": helperM.generateId(),

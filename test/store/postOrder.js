@@ -47,43 +47,18 @@ feature('User is able to place an order', function () {
             expect(response.petId, 'petId is not undefined').to.not.be.undefined.and.not.be.null;
             expect(response.petId, 'petId is not a number').and.is.a('number').above(0).and.satisfy(Number.isInteger);
             expect(response.quantity).to.be.equal(20);
-            expect(response.shipDate).to.not.be.undefined.and.not.be.null; // its crucial to verify that ship date is populated correctly. please add a test for that
-            // @angye reply - yes I have it - check below
-            // @vicky --> can you please point me to the line of code where you check that?
-            // @angye --> there we go
+            expect(response.shipDate).to.not.be.undefined.and.not.be.null; 
             expect(helper.dateTrim(response.shipDate)).to.be.equal(helper.dateTrim(order.shipDate));
-
             expect(response.status, 'response is not set as "placed"').to.be.equal('placed');
             expect(response.status, '"status" is not a string').and.is.a('string');
-
-            // @vicky --> what is the reason for adding this part -'response is not set as "false"'- in the assertion?
-            // @angye --> it can be either true or false
-            // if you are reffering to this part 'response is not set as "false"' of the assertion 
-            //- this is the message printed in case the assertion fails 
-            // anyway is an exeperiment - just trying it out :) 
             response.complete.should.be.equal(false, 'response is not set as "false"');
 
         });
 
         and("all keys are returned", function () {
-            /*
-            this one might be also useful for the future:
-            expect(response).to.have.all.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]);
-            <-- @angye comment - moved to a separated step 
-            - the reason I haven't use it is because of a chai bug conflict - basically when chai-things library is used, the 
-            assertion fails (AssertionError: expected { Object (id, petId, ...) } to have property 'length')  
-            (you can read here - https://github.com/chaijs/chai-things/issues/24) 
-            for the sake of this test I undo the chai-thing library and related assertions.
-            */
-            // @vicky --> yeah, i believe that chai-things wasn't added to initial project set up, right? you installed it afterwards? 
-            //was there a specific need for that?
-            // @angye --> yep- I used it in getpetbystatus.js
-            // for this sort of assertion
-            // context.body.should.include.something.that.has.property("status", "available");
 
             let response = context.body;
-            //      expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]).and.to.have.length(5);
-
+            //expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]).and.to.have.length(5);
             expect(response).to.have.property('id');
             expect(response).to.have.property("petId");
             expect(response).to.have.property("quantity");
@@ -110,17 +85,6 @@ feature('User is able to place an order', function () {
             expect(response.shipDate).to.be.undefined;
             expect(response.status).to.be.undefined;
             expect(response.complete).to.be.undefined;
-
-            /*
-            these 2 assertions might be also useful:
-            response.should.not.have.any.keys ("id","petId","quantity","shipDate","status","complete")
-            response.should.have.all.keys( "code", "type", "message")
-            */
-
-            // could you please also verify actual response received? e.g response.type, response.message?
-            // @vicky -> can you please address that comment as well? 
-            // @angye -> look at And("Respone type and response message", 
-
         });
         and("The return status is 500", function () {
             context.status.should.be.equal(500);
@@ -176,26 +140,9 @@ feature('User is able to place an order', function () {
 
     });
 
-    /* could you please create a test scenario with shipDate tests? 
-for example, i noticed that:
-1) if you Post  order object with  shipDate": "2020-05-01", the order will be created with 2020-05-01T00:00:00.000+0000
-2) if you Post  order object  shipDate having unexistent day of month ,e.g ": "2020-05-32", the order will be created with date calculated accordingly, so in my example its gonna be  2020-06-01T00:00:00.000+0000
-3) if you Post  order object  shipDate having unexistent  month ,e.g ": "2020-13-01", the order will be created with date calculated accordingly, so in my example the month will be added,e.g its gonna be   "2021-01-01T00:00:00.000+0000"
-
-you will need a helper method calculateShipDate or smth like that.
-if you struggle with the method, dont waste much time on it, just calculate expected dates manually and add to the assertions
-*/
-
-    // adding above sherarios
-    // 1) if you Post  order object with  shipDate": "2020-05-01", the order will be created with 2020-05-01T00:00:00.000+0000
-
     Scenario("Post order with shipDate format 'yyy-mm-dd' should have time set to T00:00:00.000+0000", function () {
 
         let order;
-        // @vicky - in this scenario i would prefer to see 'given' step containing just an order object, 
-        // 'when' step - an action, e.g. postOrder and 'then' step - all assertions (status=200, time assertion etc)
-        // @angye --> OK - I hope this is what you mean
-
 
         Given("I have an existing order id", function () {
 
@@ -213,20 +160,11 @@ if you struggle with the method, dont waste much time on it, just calculate expe
 
             expect(context.body.shipDate, "shiDate does not have time set to zero").to.include('T00:00:00.000+0000');
 
-
         });
 
     });
 
-    //   2) if you Post  order object shipDate having unexistent day of month,
-    //  e.g ": "2020-05-32", the order will be created with date calculated accordingly, 
-    //   so in my example its gonna be  2020-06-01T00:00:00.000+0000
-
-
     Scenario("Calculate the current date", function () {
-
-        // @vicky - please see my comment above in the line 183-184
-        // @angye - done 
 
         let order;
 
@@ -247,8 +185,6 @@ if you struggle with the method, dont waste much time on it, just calculate expe
             context.status.should.be.equal(200, 'Status for context');
 
         });
-        //   @vicky - in cases when you don't know how to implement helper method or you just simply don't want to spend time on it you can simply 
-        //calculate the data manually and do the assertion, e.g.: 
 
         Then("The order date is calculated and saved correctly", function () {
             let response = context.body;

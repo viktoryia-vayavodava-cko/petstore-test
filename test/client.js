@@ -7,7 +7,8 @@ module.exports = {
     deletePet,
     getPetByStaus,
     getPetByStaus1,
-    postOrder
+    postOrder,
+    getOrder
 
 }
 
@@ -62,4 +63,14 @@ function postOrder(body){
     .post("/store/order")
     .set("Content-Type", "application/json")
     .send(body)
+}
+
+function getOrder(oderId){
+
+
+
+    return request("https://petstore.swagger.io/v2")
+    .get(`/store/order/${oderId}`)
+    .set("Content-Type", "application/json")
+    .send()
 }
