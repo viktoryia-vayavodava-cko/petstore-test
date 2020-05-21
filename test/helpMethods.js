@@ -6,7 +6,8 @@ module.exports = {
     petIdIsReturned,
     genrateTodaydateFormat,
     dateTrim,
-    findInString
+    findInString,
+    findANonExistingOrderId
 }
 
 function generateId() {
@@ -122,9 +123,30 @@ function dateTrim(data) {
 
 }
 
-
-function findInString(st1, st2){
+/**
+     * Check if a string exists withing another string
+     * st2 is the string to search
+     * st1 is the complete string
+     * @param {string} st1 to search
+     * @param {string} st2 complete 
+     * @returns {number} 0 if true -1 if false
+     */
+function findInString(/**String*/ st1, /**String*/ st2){
 
     return st1.search(st2);
 
+}
+
+/**
+ * Used to find an order that does not exists.
+ * @return {number} Order ID that does not exists yet
+ */
+function findANonExistingOrderId(){
+
+    // genereate an orderID
+    // search for that order id
+    // if message is order not found
+// then return it
+
+    return orderId;
 }
