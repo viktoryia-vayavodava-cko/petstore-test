@@ -7,7 +7,7 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
 
     Scenario("Search via a valid existing order id", function () {
         let context, response, order, orderID;
-        Given("I have a valid existing order", async function () {
+        Given("I have a valid existing order", function () {
             order = orders.order01
         });
         And("I have the id of a valid existing order", async function () {
@@ -18,10 +18,10 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         When("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
-        Then("Response is 200", async function () {
+        Then("Response is 200", function () {
             context.status.should.be.equal(200);
         });
-        And("All fireds are returned", async function () {
+        And("All fireds are returned", function () {
             expect(response.body).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]);
         });
         And("all values are matching with the value of the order id", function () {
@@ -31,45 +31,41 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
 
     Scenario("Search via a valid not existing order id", function () {
         let response, orderID;
-        Given("I have a valid but not existiong order id", async function () {
+        Given("I have a valid but not existiong order id", function () {
             orderID = 888;
         });
         And("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
-        Then("Response is 404", async function () {
+        Then("Response is 404", function () {
             response.status.should.be.equal(404);
         });
-        And("The error message says Order not found", async function () {
+        And("The error message says Order not found", function () {
             response.body.message.should.be.equal("Order not found")
         });
-        And("The error message is of type error", async function () {
+        And("The error message is of type error", function () {
             response.body.type.should.be.equal("error")
         });
     });
 
     Scenario("Search via an invalid id", function () {
         let response, orderID;
-        Given("I have an invalid order id", async function () {
+        Given("I have an invalid order id", function () {
             orderID = '88r8';
         });
         And("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
-        Then("Response is 404", async function () {
+        Then("Response is 404", function () {
             response.status.should.be.equal(404);
         });
-        And("The error is not on the server side", async function () {
+        And("The error is not on the server side", function () {
             response.clientError.should.be.equal(true);
             response.serverError.should.be.equal(false);
         });
         And("The error has generated a java.lang exception", function () {
             let message = response.body.message;
-            helper.findInString(message, "java.lang").should.be.equal(0);
-            //Here is the printout of the failing
-            //AssertionError: expected 'java.lang.NumberFormatException: 
-            //For input string: "88r8"' to equal 'java.lang.NumberFormatException: For input string: 88r8'
-            expect(response.body.message).to.equal(`java.lang.NumberFormatException: For input string: ${orderID}`)
+            message.should.be.equal(`java.lang.NumberFormatException: For input string: \"${orderID}\"`);
         });
     });
 });

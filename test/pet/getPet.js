@@ -1,7 +1,5 @@
 const client = require('../client');
-const helperM = require('../helpMethods');
 const animal = require('../pets');
-
 
 feature('Verify the get functionality', function () {
 
@@ -9,12 +7,11 @@ feature('Verify the get functionality', function () {
 
         let context;
         let pet = animal.pet3;
-
         given("we create a pet with unique id ", async function () {
             context = await client.postPet(pet);
             id = context.body.id
         });
-        when("we retrieve the pet by id", async function () {    
+        when("we retrieve the pet by id", async function () {
             context = await client.getPet(id);
         });
         then("Status code is 200", function () {
@@ -31,20 +28,19 @@ feature('Verify the get functionality', function () {
             context.body.category.id.should.be.equal(pet.category.id);
         });
         and("the correct info are in the photoUrls array", function () {
-            helperM.compareElementInArray(context.body.photoUrls, pet.photoUrls);
+            context.body.photoUrls.should.be.an('array').that.does.include("http://t3est.com");
+            context.body.photoUrls.should.be.an('array').that.does.include("http://t3est2.com");
         });
         and("The correct pet status is returnd", function () {
             context.body.status.should.be.equal(pet.status);
         })
     });
-    
-    scenario("Verify that pet is returned by specific id", function () {
 
+    scenario("Verify that pet is returned by specific large id", function () {
         when("we retrieve the pet by id", async function () {
-            id=423654262525634800;
+            id = 423654262525634800n;
             context = await client.getPet(id);
-            console.log("Here is your pet: ");
-            console.log(context.body);
+            context.body.message.should.be.equal("Pet not found")
         });
     });
 });

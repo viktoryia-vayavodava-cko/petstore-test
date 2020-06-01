@@ -1,58 +1,47 @@
 module.exports = {
     hasSpecifiElementInObject,
     generateId,
-    compareElementInArray,
     generateSendString,
     petIdIsReturned,
     genrateTodaydateFormat,
     dateTrim,
-    findInString,
-    findANonExistingOrderId
+    findInString
 }
 
+/**
+ * Generate an Id of 6 digits
+ * @returns {number} a number of 6 digits
+ */
 function generateId() {
     return id = Math.floor(Math.random() * 1000000);
 }
 
-function compareElementInArray(original, returned) {
-
-
-    // method 01
-    let i = 0;
-
-    original.forEach(element => {
-
-        element.should.be.equal(returned[i]);
-        i++;
-    });
-    /*
-        // method 02
-        original.forEach(function (value, y) {
-            value.should.be.equal(returned[y]);
-        }); 
-        */
-
-}
-
+/**
+ * Returns true if an element exists in the object
+ * @param {Object} element is the object where to search
+ * @param {string} name is the string to search in the object
+ * @returns {boolean} true if the object has the string
+ */
 function hasSpecifiElementInObject(element, name) {
-
-    // OR push all in an arry
 
     hasit = false;
     element.forEach(el => {
-        //   console.log('object :', el);
         if (el.name == name) {
             hasit = true;
             return true;
         } else {
-
         }
-
     });
     return hasit;
 
 };
-
+/**
+ * If one or two of the 3 parameter is or are empty 
+ * this function will generate a correct send string
+ * @param {string} status1 one of the 3 status
+ * @param {string} status2 one of the 3 status
+ * @param {string} status3 one of the 3 status
+ */
 function generateSendString(status1, status2, status3) {
 
     let sendSting;
@@ -88,24 +77,25 @@ function generateSendString(status1, status2, status3) {
             }
         }
     }
-
     return sendSting;
 }
-
+/**
+     * Check it the Pet ID exists in the body
+     * @param {object} cBody is the body
+     * @param {number} petId the id 
+     * @returns {boolean} true if pet id exists
+     */
 function petIdIsReturned(cBody, petId) {
-
     let item = cBody.findIndex(i => i.id === parseInt(petId));
-
     var valueAtIndex = cBody[item];
-
     return (parseInt(petId)) === (parseInt(valueAtIndex.id)) ? true : false
-
 }
-
-
+/**
+     * Generate today date using ISO
+     * @example: 2011-10-05T14:48:00.000Z
+     * @returns {Date} the date in ISO format
+     */
 function genrateTodaydateFormat() {
-
-
     var todayDate = new Date().toISOString();
     return todayDate;
 }
@@ -116,11 +106,8 @@ function genrateTodaydateFormat() {
  * @return {string} String truncated after + symbol
  */
 function dateTrim(data) {
-
     let position = data.slice(0, data.indexOf('+'));
-
     return position;
-
 }
 
 /**
@@ -131,22 +118,7 @@ function dateTrim(data) {
      * @param {string} st2 complete 
      * @returns {number} 0 if true -1 if false
      */
-function findInString(/**String*/ st1, /**String*/ st2){
-
+function findInString(/**String*/ st1, /**String*/ st2) {
     return st1.search(st2);
 
-}
-
-/**
- * Used to find an order that does not exists.
- * @return {number} Order ID that does not exists yet
- */
-function findANonExistingOrderId(){
-
-    // genereate an orderID
-    // search for that order id
-    // if message is order not found
-// then return it
-
-    return orderId;
 }
