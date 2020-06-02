@@ -40,6 +40,8 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         Then("Response is 404", function () {
             response.status.should.be.equal(404);
         });
+        // i would advise having more generic descriptions in assertions, like 'The appropriate error message is shown'
+        // because then you reveal the message in the assertion itself anyways
         And("The error message says Order not found", function () {
             response.body.message.should.be.equal("Order not found")
         });

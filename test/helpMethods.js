@@ -79,6 +79,11 @@ function generateSendString(status1, status2, status3) {
     }
     return sendSting;
 }
+
+// vicky - im not sure there description blocks are needed. the function is self-explanatory
+// i suppose such blocks shall be used by developers in their more complex functions, classes etc
+// and the code itself is not too complicated to understand
+
 /**
      * Check it the Pet ID exists in the body
      * @param {object} cBody is the body
@@ -118,6 +123,9 @@ function dateTrim(data) {
      * @param {string} st2 complete 
      * @returns {number} 0 if true -1 if false
      */
+
+// its a good practize to google a bit before implementing helper method as Javascript itself has plenty of useful built-in functions,
+// e.g. in the case below for finding the part of the string within the current string you can use includes() - please see https://www.w3schools.com/jsref/jsref_includes.asp
 function findInString(/**String*/ st1, /**String*/ st2) {
     return st1.search(st2);
 

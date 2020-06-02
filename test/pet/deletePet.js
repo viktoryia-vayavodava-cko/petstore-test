@@ -6,6 +6,7 @@ feature('Pet with id can be deleted', function () {
     scenario('the correct pet is deleted', function () {
         let context;
         let pet = animal.pet1;
+        // why do we have given and when staps named in a same way?
         given("we delete a pet with id ", async function () {
             context = await client.postPet(pet);
             id = context.body.id
@@ -17,6 +18,7 @@ feature('Pet with id can be deleted', function () {
             context.status.should.be.equal(200);
             context.statusCode.should.be.equal(200);
         });
+        // this sentence \'we call the deleted pet\' looks like 'when' clause, dont you think? this method should be  renamed to when() 
         and("we call the deleted pet", async function () {
             context = await client.getPet(id);
         })

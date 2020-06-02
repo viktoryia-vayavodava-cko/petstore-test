@@ -21,7 +21,7 @@ feature('Verify the we can search by staus', function () {
       expect(context.body).to.be.an('array').that.is.not.empty;
     });
     Then("this pet is returned", function () {
-
+// forgot to remove console.log :) 
       console.log("\t --> The number of returned available pets is: " + context.body.length);
       context.body.should.include.something.that.has.property("status", "available");
       context.body.should.include.something.that.has.property("id", parseInt(pet1.id));
@@ -51,6 +51,7 @@ feature('Verify the we can search by staus', function () {
   });
 
   scenario("Getting pets by unexistent status", function () {
+    // i think we missed that one before  - as agreed, Given shouldnt have any assertions
     Given("i have some available pets created ", function () {
       expect(context.body).to.be.an('array').that.is.not.empty;
     });

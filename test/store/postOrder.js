@@ -27,6 +27,10 @@ feature('User is able to place an order', function () {
         given("a valid order", async function () {
             context = await client.postOrder(order);
         });
+        // do we need this assertion in And() method? i would say that the above Given() should be changed to When () actually, bacause you perform an Post action
+        // and the below And() should be renamed to Then()
+        // which  means that you need to come up with Given() method to start with
+
         and("status 200 is returned", function () {
             context.status.should.be.equal(200);
         });
@@ -45,6 +49,7 @@ feature('User is able to place an order', function () {
         });
         and("all keys are returned", function () {
             let response = context.body;
+            // why do you need all these assertions? isnt assertion in the line 53 similar to assertions in lines 54-59?
             expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]);
             expect(response).to.have.property('id');
             expect(response).to.have.property("petId");
@@ -60,6 +65,7 @@ feature('User is able to place an order', function () {
         given("an invalid order", async function () {
             context = await client.postOrder(order);
         });
+        // where is your action - e.g.When() step?
         then("verify that all fields are undefined", function () {
             let response = context.body;
             expect(response.id).to.be.undefined;
@@ -72,6 +78,8 @@ feature('User is able to place an order', function () {
         and("The return status is 500", function () {
             context.status.should.be.equal(500);
         });
+
+        // i dont understang what "Respone type and response message" mean? do you mean "Respone type and response message are correct" or smth like that?
         And("Respone type and response message", function () {
             context.body.code.should.be.equal(500);
             context.body.type.should.be.equal('unknown');

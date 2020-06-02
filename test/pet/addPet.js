@@ -32,3 +32,5 @@ feature('Verify the post functionality', function () {
     });
   })
 })
+
+// i wonder why havent we thought of negative test cases here.. can you add one please?

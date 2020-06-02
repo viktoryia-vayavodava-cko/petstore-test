@@ -36,6 +36,8 @@ feature('Verify the get functionality', function () {
         })
     });
 
+    // can you make  the test case below in line with bdd approach please? (following given-when-then notation)
+
     scenario("Verify that pet is returned by specific large id", function () {
         when("we retrieve the pet by id", async function () {
             id = 423654262525634800n;
