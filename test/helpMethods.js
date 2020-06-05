@@ -125,7 +125,8 @@ function dateTrim(data) {
      */
 
 // its a good practize to google a bit before implementing helper method as Javascript itself has plenty of useful built-in functions,
-// e.g. in the case below for finding the part of the string within the current string you can use includes() - please see https://www.w3schools.com/jsref/jsref_includes.asp
+// e.g. in the case below for finding the part of the string within the current string you can use includes() 
+//- please see https://www.w3schools.com/jsref/jsref_includes.asp
 function findInString(/**String*/ st1, /**String*/ st2) {
     return st1.search(st2);
 
