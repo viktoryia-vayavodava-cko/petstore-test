@@ -34,15 +34,13 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         Given("I have a valid but not existiong order id", function () {
             orderID = 888;
         });
-        And("I search for that order id", async function () {
+        when("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
         Then("Response is 404", function () {
             response.status.should.be.equal(404);
         });
-        // i would advise having more generic descriptions in assertions, like 'The appropriate error message is shown'
-        // because then you reveal the message in the assertion itself anyways
-        And("The error message says Order not found", function () {
+        And("The appropriate error message is shown", function () {
             response.body.message.should.be.equal("Order not found")
         });
         And("The error message is of type error", function () {
@@ -55,7 +53,7 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         Given("I have an invalid order id", function () {
             orderID = '88r8';
         });
-        And("I search for that order id", async function () {
+        when("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
         Then("Response is 404", function () {

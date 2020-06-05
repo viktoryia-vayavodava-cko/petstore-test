@@ -9,6 +9,8 @@ Feature("Delete a purchased order by id", function () {
         order = orders.order01
         context = await client.postOrder(order);   // Question - Why I get the same orderId for each scenario?
         // i assume thats because you have declared orderID globally (for the whole feature)
+        // @angye -> mmm does it not gets generated for each scenario? "beforeEachScenario" the value shold get replaced each time.
+        // Need to get more info on this
         orderID = context.body.id;
         console.log("\t" + orderID);
     });
@@ -34,23 +36,19 @@ Feature("Delete a purchased order by id", function () {
 
     Scenario("Delete an order whose order id does not exists", function () {
         let response;
-        Given("I have a not esisting order id", async function () {
+        Given("I have a not existing order id", async function () {
             response = await client.deleteOrder(orderID);
         });
         When("I search for that not existing order id", async function () {
             response = await client.getOrder(orderID);
         });
-
-        // i assume thats an result of deleting the order, right? shouldn't the Then() method be used instead of And()?   
-        And("The message says 'Order not found'", function () {
+        Then("The message says 'Order not found'", function () {
             response.body.message.should.be.equal("Order not found")
         });
-        // that one is a condition. you should use When () here
-        Then("I try to delete an order that does not exists", async function () {
+        When("I try to delete an order that does not exists", async function () {
             response = await client.deleteOrder(orderID);
         });
-        // and thats a result again. please use Then() here
-        And("I receive a 404 and message 'Order Not Found'", function () {
+        Then("I receive a 404 and message 'Order Not Found'", function () {
             response.status.should.be.equal(404);
             response.body.message.should.be.equal("Order Not Found");
             response.notFound.should.be.equal(true);
@@ -59,15 +57,13 @@ Feature("Delete a purchased order by id", function () {
     });
 
     Scenario("Delete an order whose order id is invalid", function () {
-        let response, orderIDNotValid; // please keep names short where possible. 'invalidId' will be fine
+        let response, invalidId;
         Given("I have an invalid order id ", function () {
-            orderIDNotValid = "88r8";
-            console.log("\t--> " + orderIDNotValid);
+            invalidId = "88r8";
+            console.log("\t--> " + invalidId);
         });
-
-        // this should be called When() because you perform an action
-        And("I Delete using an invalid order id", function () {
-            response = await client.deleteOrder(orderIDNotValid);
+        When("I Delete using an invalid order id", async function () {
+            response = await client.deleteOrder(invalidId);
         });
         Then("Response is 404", function () {
             response.status.should.be.equal(404);
@@ -79,7 +75,7 @@ Feature("Delete a purchased order by id", function () {
         And("The error has generated a java.lang exception", function () {
             let message = response.body.message;
             console.log('\t--> ' + response.error);
-            message.should.be.equal(`java.lang.NumberFormatException: For input string: \"${orderIDNotValid}\"`)
+            message.should.be.equal(`java.lang.NumberFormatException: For input string: \"${invalidId}\"`)
         });
     });
 });
