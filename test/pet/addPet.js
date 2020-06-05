@@ -31,6 +31,28 @@ feature('Verify the post functionality', function () {
         .should.be.equal(true);
     });
   })
+
+  scenario("Add an invalid pet to the store", function () {
+    let response, context;
+    let pet;
+
+    given("I have an invalid pet", function () {
+      pet = animal.petInvalid;
+    });
+
+    When("I create an invalid pet", async function () {
+      context = await client.postPet(pet);
+    });
+
+    Then("Response is 500", function () {
+      context.status.should.be.equal(500);
+  });
+
+  });
 })
 
+
+
 // i wonder why havent we thought of negative test cases here.. can you add one please?
+
+
