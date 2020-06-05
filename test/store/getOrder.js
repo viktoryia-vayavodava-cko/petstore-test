@@ -34,7 +34,7 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         Given("I have a valid but not existiong order id", function () {
             orderID = 888;
         });
-        And("I search for that order id", async function () {
+        when("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
         Then("Response is 404", function () {
@@ -53,7 +53,7 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         Given("I have an invalid order id", function () {
             orderID = '88r8';
         });
-        And("I search for that order id", async function () {
+        when("I search for that order id", async function () {
             response = await client.getOrder(orderID);
         });
         Then("Response is 404", function () {

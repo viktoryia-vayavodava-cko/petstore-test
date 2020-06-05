@@ -21,8 +21,6 @@ feature('Verify the we can search by staus', function () {
       expect(context.body).to.be.an('array').that.is.not.empty;
     });
     Then("this pet is returned", function () {
-// forgot to remove console.log :) 
-      console.log("\t --> The number of returned available pets is: " + context.body.length);
       context.body.should.include.something.that.has.property("status", "available");
       context.body.should.include.something.that.has.property("id", parseInt(pet1.id));
       helpMethods.petIdIsReturned(context.body, pet1.id).should.be.true;

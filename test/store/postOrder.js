@@ -29,7 +29,7 @@ feature('User is able to place an order', function () {
             order = orders.order01;
         });
 
-        Whne("a create a valid order", async function () {
+        when("a create a valid order", async function () {
             context = await client.postOrder(order);
         });
         Then("status 200 is returned", function () {

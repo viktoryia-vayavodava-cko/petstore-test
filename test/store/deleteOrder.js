@@ -62,7 +62,7 @@ Feature("Delete a purchased order by id", function () {
             invalidId = "88r8";
             console.log("\t--> " + invalidId);
         });
-        When("I Delete using an invalid order id", function () {
+        When("I Delete using an invalid order id", async function () {
             response = await client.deleteOrder(invalidId);
         });
         Then("Response is 404", function () {
