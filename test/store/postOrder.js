@@ -23,18 +23,19 @@ feature('User is able to place an order', function () {
     })
 
     scenario("Place a valid order", function () {
-        let order = orders.order01;
-        given("a valid order", async function () {
+        let order;
+
+        given("I have a valid order",  function () {
+            order = orders.order01;
+        });
+
+        Whne("a create a valid order", async function () {
             context = await client.postOrder(order);
         });
-        // do we need this assertion in And() method? i would say that the above Given() should be changed to When () actually, bacause you perform an Post action
-        // and the below And() should be renamed to Then()
-        // which  means that you need to come up with Given() method to start with
-
-        and("status 200 is returned", function () {
+        Then("status 200 is returned", function () {
             context.status.should.be.equal(200);
         });
-        then("verify that the all fields are populated", function () {
+        and("verify that the all fields are populated", function () {
             let response = context.body;
             expect(response.id).to.not.be.undefined.and.not.be.null;
             expect(response.id, '"id" is not an integer').and.is.a('number').above(0).and.satisfy(Number.isInteger);
@@ -49,23 +50,19 @@ feature('User is able to place an order', function () {
         });
         and("all keys are returned", function () {
             let response = context.body;
-            // why do you need all these assertions? isnt assertion in the line 53 similar to assertions in lines 54-59?
             expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]);
-            expect(response).to.have.property('id');
-            expect(response).to.have.property("petId");
-            expect(response).to.have.property("quantity");
-            expect(response).to.have.property("shipDate");
-            expect(response).to.have.property("status");
-            expect(response).to.have.property("complete");
         });
     });
 
     scenario("Place a not valid order", function () {
-        let order = orders.order02;
-        given("an invalid order", async function () {
+        let order;
+
+        given("I have an invalid order", function () {
+            order = orders.order02;
+        });
+        When("I send an ivalid order", async function () {
             context = await client.postOrder(order);
         });
-        // where is your action - e.g.When() step?
         then("verify that all fields are undefined", function () {
             let response = context.body;
             expect(response.id).to.be.undefined;
@@ -78,9 +75,7 @@ feature('User is able to place an order', function () {
         and("The return status is 500", function () {
             context.status.should.be.equal(500);
         });
-
-        // i dont understang what "Respone type and response message" mean? do you mean "Respone type and response message are correct" or smth like that?
-        And("Respone type and response message", function () {
+        And("Respone type and response message are correct", function () {
             context.body.code.should.be.equal(500);
             context.body.type.should.be.equal('unknown');
             context.body.message.should.be.equal('something bad happened');
