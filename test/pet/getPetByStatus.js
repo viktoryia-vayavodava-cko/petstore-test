@@ -9,16 +9,11 @@ const animal = require('../pets');
 Feature('Verify the we can search by staus', function () {
   let context, pet1;
 
-  beforeEachScenario("We have a pet to search", async function () {
-    pet1 = animal.pet1;
-    context = await client.postPet(pet1);
-  });
+  Scenario("Verify that correct pet is returned by staus", function () {
 
-
-  Scenario.only("Verify that correct pet is returned by staus", function () {
-
-    Given("I have an available pet to search ", function () {
-      // available on before each scenario
+    Given("I have an available pet to search ", async function () {
+      pet1 = animal.pet1;
+      context = await client.postPet(pet1);
     });
     When("I request pets by available status", async function () {
       context = await client.getPetByStaus('available', '', '');
