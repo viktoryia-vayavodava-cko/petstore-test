@@ -70,18 +70,18 @@ let pet4 = {
 let petInvalid = {
     "id": 'aa',
     "category": {
-      "id": 0,
-      "namdddde": "string"
+        "id": 0,
+        "namdddde": "string"
     },
     "nasssme": "doggie",
     "photoUxxxrls": [
-      "string"
+        "string"
     ],
     "tags": [
-      {
-        "id": 0,
-        "name": "string"
-      }
+        {
+            "id": 0,
+            "name": "string"
+        }
     ],
     "statdddus": "availabdddle"
 }

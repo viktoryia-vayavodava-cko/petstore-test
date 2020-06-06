@@ -1,10 +1,7 @@
 const client = require('../client');
 const orders = require('../orders');
-const helper = require('../helpMethods');
 
-
-Feature("As a user I want to be able to find a purchased order by id so that I can verify the corretness of the search result", function () {
-
+Feature("Find a purchased order by ID", function () {
     Scenario("Search via a valid existing order id", function () {
         let context, response, order, orderID;
         Given("I have a valid existing order", function () {
@@ -13,7 +10,6 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
         And("I have the id of a valid existing order", async function () {
             context = await client.postOrder(order);
             orderID = context.body.id;
-            console.log("\t" + orderID);
         });
         When("I search for that order id", async function () {
             response = await client.getOrder(orderID);
@@ -28,7 +24,6 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
             expect(response.body).to.deep.include(context.body);
         });
     });
-
     Scenario("Search via a valid not existing order id", function () {
         let response, orderID;
         Given("I have a valid but not existiong order id", function () {
@@ -47,7 +42,6 @@ Feature("As a user I want to be able to find a purchased order by id so that I c
             response.body.type.should.be.equal("error")
         });
     });
-
     Scenario("Search via an invalid id", function () {
         let response, orderID;
         Given("I have an invalid order id", function () {

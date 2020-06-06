@@ -23,7 +23,6 @@ function generateId() {
  * @returns {boolean} true if the object has the string
  */
 function hasSpecifiElementInObject(element, name) {
-
     hasit = false;
     element.forEach(el => {
         if (el.name == name) {
@@ -33,7 +32,6 @@ function hasSpecifiElementInObject(element, name) {
         }
     });
     return hasit;
-
 };
 /**
  * If one or two of the 3 parameter is or are empty 
@@ -43,9 +41,7 @@ function hasSpecifiElementInObject(element, name) {
  * @param {string} status3 one of the 3 status
  */
 function generateSendString(status1, status2, status3) {
-
     let sendSting;
-
     if (status1 == `` || status1 == null) {
         if (status2 == `` || status2 == null) {
             if (status3 == `` || status3 == null) { // 000
@@ -80,10 +76,6 @@ function generateSendString(status1, status2, status3) {
     return sendSting;
 }
 
-// vicky - im not sure there description blocks are needed. the function is self-explanatory
-// i suppose such blocks shall be used by developers in their more complex functions, classes etc
-// and the code itself is not too complicated to understand
-
 /**
      * Check it the Pet ID exists in the body
      * @param {object} cBody is the body
@@ -95,6 +87,7 @@ function petIdIsReturned(cBody, petId) {
     var valueAtIndex = cBody[item];
     return (parseInt(petId)) === (parseInt(valueAtIndex.id)) ? true : false
 }
+
 /**
      * Generate today date using ISO
      * @example: 2011-10-05T14:48:00.000Z
@@ -117,17 +110,11 @@ function dateTrim(data) {
 
 /**
      * Check if a string exists withing another string
-     * st2 is the string to search
-     * st1 is the complete string
-     * @param {string} st1 to search
-     * @param {string} st2 complete 
+     * @param {string} st1 is the complete string
+     * @param {string} st2 is the string to search
      * @returns {number} 0 if true -1 if false
      */
 
-// its a good practize to google a bit before implementing helper method as Javascript itself has plenty of useful built-in functions,
-// e.g. in the case below for finding the part of the string within the current string you can use includes() 
-//- please see https://www.w3schools.com/jsref/jsref_includes.asp
 function findInString(/**String*/ st1, /**String*/ st2) {
-    return st1.search(st2);
-
+    return st1.includes(st2);
 }

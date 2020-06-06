@@ -2,25 +2,18 @@ const client = require('../client');
 const orders = require('../orders');
 
 Feature("Delete a purchased order by id", function () {
-
     let orderID;
-
     beforeEachScenario("Create a new order", async function () {
         order = orders.order01
-        context = await client.postOrder(order);   // Question - Why I get the same orderId for each scenario?
-        // i assume thats because you have declared orderID globally (for the whole feature)
-        // @angye -> mmm does it not gets generated for each scenario? "beforeEachScenario" the value shold get replaced each time.
-        // Need to get more info on this
+        context = await client.postOrder(order);
         orderID = context.body.id;
-        console.log("\t" + orderID);
     });
-
     Scenario("Delete an order using a valid existing order id", function () {
         let response;
         Given("I have a valid order id", function () {
             // is the OrderID saved as global variable
         });
-        And("I Delete the order using the orderid", async function () {
+        When("I Delete the order using the orderid", async function () {
             response = await client.deleteOrder(orderID);
         });
         Then("Response is 200", function () {
@@ -29,11 +22,7 @@ Feature("Delete a purchased order by id", function () {
         And("The message returns the order id that has been deleted", function () {
             parseInt(response.body.message).should.be.equal(orderID);
         });
-        And("The type is unknown", function () {
-            response.body.type.should.be.equal("unknown")
-        });
     });
-
     Scenario("Delete an order whose order id does not exists", function () {
         let response;
         Given("I have a not existing order id", async function () {
@@ -55,12 +44,11 @@ Feature("Delete a purchased order by id", function () {
             console.log('\t-->  ' + response.error);
         });
     });
-
     Scenario("Delete an order whose order id is invalid", function () {
         let response, invalidId;
         Given("I have an invalid order id ", function () {
             invalidId = "88r8";
-            console.log("\t--> " + invalidId);
+            console.log("\t--> invalid order ID " + invalidId);
         });
         When("I Delete using an invalid order id", async function () {
             response = await client.deleteOrder(invalidId);

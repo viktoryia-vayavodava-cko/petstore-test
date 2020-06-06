@@ -2,40 +2,19 @@ const client = require('../client');
 const orders = require('../orders');
 const helper = require('../helpMethods');
 
-feature('User is able to place an order', function () {
-
-    scenario("Place an empty order", function () {
+Feature('User is able to place an order', function () {
+    Scenario("Place a valid order", function () {
         let order;
-        let context;
-        given("an empty order", function () {
-            order = {};
-        });
-        when("submit the order", async function () {
-            context = await client.postOrder(order);
-        });
-        then("verify that an empty order is created", function () {
-            let response = context.body;
-            context.status.should.be.equal(200);
-            response.petId.should.be.equal(0);
-            response.quantity.should.be.equal(0);
-            response.complete.should.be.equal(false);
-        });
-    })
-
-    scenario("Place a valid order", function () {
-        let order;
-
-        given("I have a valid order",  function () {
+        Given("I have a valid order", function () {
             order = orders.order01;
         });
-
-        when("a create a valid order", async function () {
+        When("a I create a valid order", async function () {
             context = await client.postOrder(order);
         });
         Then("status 200 is returned", function () {
             context.status.should.be.equal(200);
         });
-        and("verify that the all fields are populated", function () {
+        And("verify that the all fields are populated", function () {
             let response = context.body;
             expect(response.id).to.not.be.undefined.and.not.be.null;
             expect(response.id, '"id" is not an integer').and.is.a('number').above(0).and.satisfy(Number.isInteger);
@@ -48,31 +27,36 @@ feature('User is able to place an order', function () {
             expect(response.status, '"status" is not a string').and.is.a('string');
             response.complete.should.be.equal(true, 'response is not set as "true"');
         });
-        and("all keys are returned", function () {
+        And("all keys are returned", function () {
             let response = context.body;
             expect(response).to.have.keys(["id", "petId", "quantity", "shipDate", "status", "complete"]);
         });
     });
-
+    Scenario("Place an empty order", function () {
+        let order, context;
+        Given("I have an empty order", function () {
+            order = {};
+        });
+        When("submit the order", async function () {
+            context = await client.postOrder(order);
+        });
+        Then("verify that an empty order is created", function () {
+            let response = context.body;
+            context.status.should.be.equal(200);
+            response.petId.should.be.equal(0);
+            response.quantity.should.be.equal(0);
+            response.complete.should.be.equal(false);
+        });
+    })
     scenario("Place a not valid order", function () {
         let order;
-
         given("I have an invalid order", function () {
             order = orders.order02;
         });
         When("I send an ivalid order", async function () {
             context = await client.postOrder(order);
         });
-        then("verify that all fields are undefined", function () {
-            let response = context.body;
-            expect(response.id).to.be.undefined;
-            expect(response.petId).to.be.undefined;
-            expect(response.quantity).to.be.undefined;
-            expect(response.shipDate).to.be.undefined;
-            expect(response.status).to.be.undefined;
-            expect(response.complete).to.be.undefined;
-        });
-        and("The return status is 500", function () {
+        Then("The return status is 500", function () {
             context.status.should.be.equal(500);
         });
         And("Respone type and response message are correct", function () {
@@ -81,8 +65,7 @@ feature('User is able to place an order', function () {
             context.body.message.should.be.equal('something bad happened');
         });
     });
-
-    scenario("Update an existing order", function () {
+    Scenario("Update an existing order", function () {
         let order = orders.order01;
         let replacedOrder = {
             "id": order.id,
@@ -93,16 +76,16 @@ feature('User is able to place an order', function () {
             "complete": true
         };
         let context
-        given("I have an existing order id", async function () {
+        Given("I have an existing order id", async function () {
             await client.postOrder(order);
         });
-        when("replace the orderId with the above values", async function () {
+        When("replace the orderId with the above values", async function () {
             context = await client.postOrder(replacedOrder);
         });
-        then("The return status is 200", function () {
+        Then("The return status is 200", function () {
             context.status.should.be.equal(200, 'Status for context');
         });
-        and("each of order properties has been updated", function () {
+        And("each of order properties has been updated", function () {
             let replaceResponce = context.body;  // replaced
             expect(replaceResponce.id).to.be.equal(replacedOrder.id);
             expect(replaceResponce.petId).to.be.equal(replacedOrder.petId);

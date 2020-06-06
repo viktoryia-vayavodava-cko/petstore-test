@@ -6,40 +6,44 @@ const helpMethods = require('../helpMethods');
 const client = require('../client');
 const animal = require('../pets');
 
-feature('Verify the we can search by staus', function () {
-  let context;
-  scenario("Verify that correct pet is returned by staus", function () {
-    let pet1;
-    given("I have an available pet created ", function () {
-      pet1 = animal.pet1;
+Feature('Verify the we can search by staus', function () {
+  let context, pet1;
+
+  beforeEachScenario("We have a pet to search", async function () {
+    pet1 = animal.pet1;
+    context = await client.postPet(pet1);
+  });
+
+
+  Scenario.only("Verify that correct pet is returned by staus", function () {
+
+    Given("I have an available pet to search ", function () {
+      // available on before each scenario
     });
-    And("I create a pet", async function () {
-      context = await client.postPet(pet1);
-    });
-    when("I request pets by available status", async function () {
+    When("I request pets by available status", async function () {
       context = await client.getPetByStaus('available', '', '');
-      expect(context.body).to.be.an('array').that.is.not.empty;
     });
-    Then("this pet is returned", function () {
+    Then("pet is returned", function () {
+      expect(context.body).to.be.an('array').that.is.not.empty;
       context.body.should.include.something.that.has.property("status", "available");
       context.body.should.include.something.that.has.property("id", parseInt(pet1.id));
       helpMethods.petIdIsReturned(context.body, pet1.id).should.be.true;
     });
 
   });
-  scenario("Getting existing pets by several statuses", function () {
+  Scenario("Getting existing pets by several statuses", function () {
     let pet3 = animal.pet3;
-    Given(" i have some available pets created ", function () {
+    Given("i have some available pets created ", function () {
       context.body.should.include.something.that.has.property("status", "available");
     });
-    And("a sold pet is created", async function () {
+    And("a pet with sold status is created", async function () {
       context = await client.postPet(pet3);
     });
     When("i request pets by available and sold statuses", async function () {
       context = await client.getPetByStaus('available', 'sold', '');
-      expect(context.body).to.be.an('array').that.is.not.empty;
     });
     Then("pets with that status are returned", function () {
+      expect(context.body).to.be.an('array').that.is.not.empty;
       context.body.should.include.something.that.has.property("status", "available");
       // I thing the search is not working properly
     });
@@ -48,12 +52,10 @@ feature('Verify the we can search by staus', function () {
     });
   });
 
-  scenario("Getting pets by unexistent status", function () {
-    // i think we missed that one before  - as agreed, Given shouldnt have any assertions
+  Scenario("Getting pets by nonexistent status", function () {
     Given("i have some available pets created ", function () {
-      expect(context.body).to.be.an('array').that.is.not.empty;
     });
-    When("i request pets by unexistent status", async function () {
+    When("i request pets by nonexistent status", async function () {
       context = await client.getPetByStaus('bla', 'bla', 'bla');
     });
     Then("error is returned", function () {
