@@ -114,6 +114,7 @@ function dateTrim(data) {
      * @param {string} st2 is the string to search
      * @returns {number} 0 if true -1 if false
      */
+
 function findInString(/**String*/ st1, /**String*/ st2) {
     return st1.includes(st2);
 }
