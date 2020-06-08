@@ -34,6 +34,7 @@ Feature('e2e - Create update delete a pet', function () {
         });
         Then("Response code is 200", async function () {
             response.status.should.be.equal(200);
-        });
+        }); //
+
     });
 });
