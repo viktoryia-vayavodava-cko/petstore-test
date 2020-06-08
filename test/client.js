@@ -6,11 +6,12 @@ module.exports = {
     postPet,
     deletePet,
     getPetByStaus,
+    putPet,
     postOrder,
     getOrder,
     deleteOrder
 }
-
+// PET
 function getPet(id) {
     return request("https://petstore.swagger.io/v2")
         .get(`/pet/${id}`)
@@ -38,6 +39,12 @@ function getPetByStaus(status1, status2, status3) {
         .get(`/pet/findByStatus?${sendSting}`)
         .set("Content-Type", "application/json")
         .send()
+}
+function putPet(body) {
+    return request("https://petstore.swagger.io/v2")
+        .put(`/pet`)
+        .set("Content-Type", "application/json")
+        .send(body)
 }
 
 // STORE

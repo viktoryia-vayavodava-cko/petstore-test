@@ -39,6 +39,36 @@ let pet2 = {
     "status": "sold"
 };
 
+let petReplace = {
+    "id": `${id}`,
+    "category": {
+        "id": 1102,
+        "name": "cat2"
+    },
+    "name": "Punto",
+    "photoUrls": [
+        "http://test.com",
+        "http://test2.com",
+        "http://test3.com",
+        "http://test4.com"
+    ],
+    "tags": [
+        {
+            "id": 5,
+            "name": "good cat"
+        },
+        {
+            "id": 6,
+            "name": "bad cat"
+        },
+        {
+            "id": 7,
+            "name": "fantastic cat"
+        }
+    ],
+    "status": "available"
+};
+
 let pet3 = {
     "id": `${helperM.generateId()}`,
     "category": {
@@ -89,5 +119,5 @@ let petInvalid = {
 
 // to export varialbe the export method should go at the end
 module.exports = {
-    pet1, pet2, pet3, pet4, petInvalid
+    pet1, pet2, pet3, pet4, petInvalid , petReplace
 }
