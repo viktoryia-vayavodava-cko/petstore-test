@@ -12,7 +12,7 @@ Feature('e2e - Create update delete a pet', function () {
         When("we create the pet", async function () {
             context = await client.postPet(pet);
         });
-        Then("Response code is 200", function () {
+        Then("Pet is successfully created", function () {
             context.status.should.be.equal(200);
         });
         And("I get the id of the just created pet", function () {
@@ -25,16 +25,16 @@ Feature('e2e - Create update delete a pet', function () {
         When("I update pet fileds", async function () {
             response = await client.putPet(body);
         });
-        Then("Response code is 200", function () {
+        Then("Pet is successfully updated", function () {
             response.status.should.be.equal(200);
         });
         // stepst to delete a pet
         When("I delete the pet", async function () {
             response = await client.deletePet(id);
         });
-        Then("Response code is 200", async function () {
+        Then("Pet is successfully deleted", async function () {
             response.status.should.be.equal(200);
-        }); //
+        });
 
     });
 });
