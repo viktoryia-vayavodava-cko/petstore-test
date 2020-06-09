@@ -34,7 +34,7 @@ Feature('Verify the post functionality', function () {
   })
 
   Scenario("Add an invalid pet to the store", function () {
-    let response, context;
+    let context;
     let pet;
     given("I have an invalid pet", function () {
       pet = animal.petInvalid;

@@ -20,7 +20,6 @@ let order01 = {
     "shipDate": `${shipDate}`,
     "status": status.PLACED,
     "complete": true
-
 };
 
 // Not valid order - status and shipDate are incorrect
